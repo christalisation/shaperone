@@ -146,7 +146,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         <span>@hydrofoil/shaperone playground</span>
       </h2>
       <vaadin-select id="lang" slot="navbar"
-                     value="${this.playground.language}"
+                     value="${this.playground?.language ?? 'en'}"
                      @value-changed="${(e: any) => store().dispatch.playground.switchLanguage(e.detail.value)}"
                      .renderer="${(root: HTMLElement) => render(html`
           <vaadin-list-box>
@@ -333,10 +333,12 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   mapState(state: State) {
-    this.form.configure(selectComponents(state.componentsSettings.components))
-    this.form.configure(configureRenderer.switchLayout(state.rendererSettings))
-    this.form.configure(configureRenderer.switchNesting(state.rendererSettings))
-    this.form.configure(configureRenderer.setLabs(state.rendererSettings))
+    if (this.form) {
+      this.form.configure(selectComponents(state.componentsSettings.components))
+      this.form.configure(configureRenderer.switchLayout(state.rendererSettings))
+      this.form.configure(configureRenderer.switchNesting(state.rendererSettings))
+      this.form.configure(configureRenderer.setLabs(state.rendererSettings))
+    }
 
     return {
       components: state.componentsSettings,

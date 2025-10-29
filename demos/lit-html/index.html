@@ -31,6 +31,14 @@
 </head>
 
 <body>
+    <script>
+    const origDefine = customElements.define.bind(customElements);
+    customElements.define = (name, klass, options) => {
+      if (!customElements.get(name)) {
+        origDefine(name, klass, options);
+      }
+    };
+  </script>
   <shaperone-playground-lit></shaperone-playground-lit>
 
   <script type="module" src="./src/shaperone-playground-lit.ts"></script>
